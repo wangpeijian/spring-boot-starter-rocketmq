@@ -1,6 +1,9 @@
 # spring-rocketmq-starter
 
-spring-boot 使用注入方式调用阿里云RocketMQ SDK。 email: 519955464@qq.com
+spring-boot 使用注入方式调用阿里云RocketMQ SDK。
+<br> 
+email: 519955464@qq.com
+
 ---
 
 ### 配置示例
