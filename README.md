@@ -54,11 +54,13 @@ rocketMq:
             c1:
                 #阿里topic
                 topic: 
-                #消费的tag, 可以接受两个
+                #消费的tag, 可以消费多个tag
                 subExpression: 'Tag0||TagA' 
+                #阿里消费者id
                 consumer: 
+                #普通消息
                 type: normal
-                #是否使用
+                #是否使用广播方式
                 useBroadcast: false 
                 #顺序消息消费失败进行重试前的等待时间，单位(毫秒)
                 suspendTimeMillis: 10000 
@@ -69,14 +71,14 @@ rocketMq:
                 topic: 
                 subExpression: 'TagB'
                 consumer: 
-                #监听顺序消息
+                #顺序消息
                 type: order
 
             c3:
                 topic: 
                 subExpression: 'TagC'
                 consumer: 
-                #监听事务消息
+                #事务消息
                 type: transaction
 
 ```
