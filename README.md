@@ -109,6 +109,7 @@ rocketMq:
 
 ```
     SendResult sendResult0 = p0.send("发送了一条普通消息");
+    
     //发送延迟消息、定时消息，传入一个时间戳值
     SendResult sendResult0 = p0.send("发送了一条普通消息", 1551836991150L);
     
@@ -140,11 +141,11 @@ rocketMq:
     @Component
     public class TestChecker extends AbstractChecker {
     
-        //Checker 类中不能直接注入生产者对象，需要从生产者仓库中获取
+        //Checker类中不能直接注入生产者对象，需要从生产者仓库中获取
         @Autowired
         private ChannelRepertory channelRepertory;
     
-        //此方法返回，绑定了事务消息的生产者别名
+        //此方法返回绑定了事务消息的生产者别名
         public String getChannelName() {
             return "p3";
         }
