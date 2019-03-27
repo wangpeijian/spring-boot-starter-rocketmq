@@ -8,7 +8,7 @@ import lombok.Data;
  * 发送者代理类的抽象类
  */
 @Data
-abstract class ChannelBase {
+public abstract class ChannelBase {
 
     private String topic;
 

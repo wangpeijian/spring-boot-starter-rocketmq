@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class ConsumerConfig extends BaseConfig {
 
-    private String consumer;
-
     //普通消息类型配置项
     private boolean useBroadcast = false;
 
@@ -19,8 +17,10 @@ public class ConsumerConfig extends BaseConfig {
     // 消息消费失败时的最大重试次数
     private long MaxReconsumeTimes = 20;
 
+    //匹配TAG表达式 如：“TAG_A” 或 “TAG_A||TAG_B”
     private String subExpression = "*";
 
+    //是否使用广播模式
     public boolean useBroadcast() {
         return this.useBroadcast;
     }

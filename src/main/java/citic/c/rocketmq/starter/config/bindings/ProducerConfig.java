@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class ProducerConfig extends BaseConfig {
 
-    private String producer;
-
     private String tag;
 
 }

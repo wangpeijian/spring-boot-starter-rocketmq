@@ -14,7 +14,7 @@ import java.util.Properties;
 public class RocketMQConfig {
 
     // 设置 TCP 接入域名（此处以公共云生产环境为例）
-    private String onsAddress;
+    private String nameSrvAddr;
 
     // AccessKey 阿里云身份验证，在阿里云服务器管理控制台创建
     private String accessKey;
@@ -37,31 +37,31 @@ public class RocketMQConfig {
         // SecretKey 阿里云身份验证，在阿里云服务器管理控制台创建
         properties.put(PropertyKeyConst.SecretKey, this.secretKey);
         // 设置 TCP 接入域名（此处以公共云生产环境为例）
-        properties.put(PropertyKeyConst.ONSAddr, this.onsAddress);
+        properties.put(PropertyKeyConst.NAMESRV_ADDR, this.nameSrvAddr);
         return properties;
     }
 
     /**
      * 创建生产者配置信息
      *
-     * @param producerId
+     * @param groupId
      * @return
      */
-    public Properties getProducerProperties(String producerId) {
+    public Properties getProducerProperties(String groupId) {
         Properties properties = this.getBaseProperties();
-        properties.setProperty(PropertyKeyConst.ProducerId, producerId);
+        properties.setProperty(PropertyKeyConst.GROUP_ID, groupId);
         return properties;
     }
 
     /**
      * 创建消费者配置信息
      *
-     * @param consumerId
+     * @param groupId
      * @return
      */
-    public Properties getConsumerProperties(String consumerId) {
+    public Properties getConsumerProperties(String groupId) {
         Properties properties = this.getBaseProperties();
-        properties.setProperty(PropertyKeyConst.ConsumerId, consumerId);
+        properties.setProperty(PropertyKeyConst.GROUP_ID, groupId);
         return properties;
     }
 }

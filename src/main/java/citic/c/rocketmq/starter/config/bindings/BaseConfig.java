@@ -4,21 +4,11 @@ import citic.c.rocketmq.starter.enums.ProducerType;
 import lombok.Data;
 
 @Data
-public class BaseConfig {
+class BaseConfig {
+
+    private String groupId;
 
     private String topic;
 
     private ProducerType type = ProducerType.normal;
-
-    public boolean isOrder() {
-        return ProducerType.order == type;
-    }
-
-    public boolean isTransaction() {
-        return ProducerType.transaction == type;
-    }
-
-    public boolean isNormal() {
-        return ProducerType.normal == type;
-    }
 }

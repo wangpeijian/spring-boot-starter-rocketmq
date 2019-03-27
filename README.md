@@ -23,28 +23,28 @@ rocketMq:
                 #阿里topic
                 topic: 
                 tag: 'Tag0'
-                #阿里生产者id
-                producer: 
+                #阿里groupId
+                groupId: 
                 #生产者类型-普通消息
                 type: normal 
 
             p1:
                 topic: 
                 tag: 'TagA'
-                producer: 
+                groupId: 
                 type: normal
 
             p2:
                 topic: 
                 tag: 'TagB'
-                producer: 
+                groupId: 
                 #顺序消息
                 type: order 
 
             p3:
                 topic: 
                 tag: 'TagC'
-                producer: 
+                groupId: 
                 #事务消息
                 type: transaction 
 
@@ -56,8 +56,8 @@ rocketMq:
                 topic: 
                 #消费的tag, 可以消费多个tag
                 subExpression: 'Tag0||TagA' 
-                #阿里消费者id
-                consumer: 
+                #阿里groupId
+                groupId: 
                 #普通消息
                 type: normal
                 #是否使用广播方式
@@ -70,14 +70,14 @@ rocketMq:
             c2:
                 topic: 
                 subExpression: 'TagB'
-                consumer: 
+                groupId: 
                 #顺序消息
                 type: order
 
             c3:
                 topic: 
                 subExpression: 'TagC'
-                consumer: 
+                groupId: 
                 #事务消息
                 type: transaction
 

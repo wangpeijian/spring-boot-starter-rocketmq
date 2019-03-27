@@ -1,0 +1,49 @@
+rocketMq:
+    nameSrvAddr:
+    access-key:
+    secret-key:
+
+    bindings:
+        producers:
+            p0:
+                topic:
+                tag: 'Tag0'
+                groupId:
+                type: normal
+
+            p1:
+                topic:
+                tag: 'TagA'
+                groupId:
+                type: normal
+
+            p2:
+                topic:
+                tag: 'TagB'
+                groupId:
+                type: order
+
+            p3:
+                topic:
+                tag: 'TagC'
+                groupId:
+                type: transaction
+
+        consumers:
+            c1:
+                topic:
+                subExpression: 'Tag0||TagA'
+                groupId:
+                type: normal
+
+            c2:
+                topic:
+                subExpression: 'TagB'
+                groupId:
+                type: order
+
+            c3:
+                topic:
+                subExpression: 'TagC'
+                groupId:
+                type: transaction
