@@ -135,6 +135,45 @@ rocketMq:
     
 ```
 
+##### 2.4 使用接口注入方式调用生产者
+使用接口注入方式发送消息，需要在项目启动类上添加`@EnableRocketMQ`注解。创建发送者接口类，接口添加注解`@@ProducerChannel("生产者别名")`，
+接口方法添加`@MessageSender（MessageType）`注解标记消息发送方式。普通消息需要区分`sendOneway`、`sendAsync`、`send`三种不同发送方式。
+普通消息，顺序消息，事务消息默认是基本发送方式。
+```
+   //项目启动类,添加EnableRocketMQ注解
+   @EnableRocketMQ
+   @SpringBootApplication
+   public class Application {
+   
+       public static void main(String[] args) {
+           SpringApplication.run(Application.class, args);
+       }
+   }
+   
+   //生产者接口类，ProducerChannel注解参数为生产者别名
+   @ProducerChannel("p1")
+   public interface MqProducer {
+   
+       //接口参数要和Channel中对应的方法参数保持一致，消息类型可以为任意类型，事务消息额外参数可以是任意类型
+       @MessageSender
+       SendResult sendTest(String msg);
+   
+       @MessageSender(MessageType.async)
+       SendResult sendTestAsync(String msg, SendCallback sendCallback);
+   
+       @MessageSender(MessageType.oneway)
+       SendResult sendTestOneway(String msg);
+   
+   }
+   
+   //注入生产者接口 
+   @Autowired
+   MqProducer mqProducer;
+   
+   //发送一条消息
+   SendResult sendResult1 =  mqProducer.sendTest("普通消息");
+```
+
 #### 3. 事务消息注册checker
 事务消息的发送者，依赖一个checker，checker类需要实现 AbstractChecker 抽象类
 ```
@@ -155,7 +194,7 @@ rocketMq:
             logger.info("消息内容：", msg.getBody());
     
             //Checker 类中如果需要使用生产者，需要从生产者仓库中获取一个生产者
-            ChannelNormal p1 = channelRepertory.getChannel("p1");
+            ChannelNormal p1 = channelRepertory.getChannelNormal("p1");
     
             return TransactionStatus.CommitTransaction;
         }

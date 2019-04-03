@@ -9,8 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
 @Slf4j
-@Component
+@Component(ChannelRepertory.CHANNEL_REPERTORY_BEAN_NAME)
 public class ChannelRepertory {
+
+    public final static String CHANNEL_REPERTORY_BEAN_NAME = "channelRepertory";
 
     //普通消息
     private final HashMap<String, ChannelNormal> channelNormal = new HashMap<>();
@@ -36,7 +38,7 @@ public class ChannelRepertory {
         return channelTransaction;
     }
 
-    public ChannelNormal getChannel(String name) {
+    public ChannelNormal getChannelNormal(String name) {
         return channelNormal.get(name);
     }
 
@@ -46,5 +48,35 @@ public class ChannelRepertory {
 
     public ChannelTransaction getChannelTransaction(String name) {
         return channelTransaction.get(name);
+    }
+
+    /**
+     * 反射使用时，查找全部Channel
+     *
+     * @param name
+     * @return
+     */
+    public Object findChannel(String name) {
+        Object channel;
+
+        channel = this.getChannelNormal(name);
+
+        if (channel != null) {
+            return channel;
+        }
+
+        channel = this.getChannelOrder(name);
+
+        if (channel != null) {
+            return channel;
+        }
+
+        channel = this.getChannelTransaction(name);
+
+        if (channel != null) {
+            return channel;
+        }
+
+        return null;
     }
 }

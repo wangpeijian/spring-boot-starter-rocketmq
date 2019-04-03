@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Order()
+@Order
 @Slf4j
 @Configuration
 public class ConsumerProcessor implements ApplicationContextAware, InitializingBean {
@@ -43,13 +43,6 @@ public class ConsumerProcessor implements ApplicationContextAware, InitializingB
         this.applicationContext = (ConfigurableApplicationContext) applicationContext;
     }
 
-    /**
-     * 初始化缓存对象，工厂对象
-     */
-    private void processorInit() {
-        this.consumerFactory = new ConsumerFactory(applicationContext, rocketMQConfig);
-    }
-
     @Override
     public void afterPropertiesSet() {
         //初始化
@@ -60,6 +53,16 @@ public class ConsumerProcessor implements ApplicationContextAware, InitializingB
         if (Objects.nonNull(beans)) {
             beans.forEach((key, bean) -> scanMonitorMethod(bean.getClass()));
         }
+
+        //启动全部消费者
+        consumerFactory.startAllConsumer();
+    }
+
+    /**
+     * 初始化缓存对象，工厂对象
+     */
+    private void processorInit() {
+        this.consumerFactory = new ConsumerFactory(applicationContext, rocketMQConfig);
     }
 
     /**
@@ -104,8 +107,5 @@ public class ConsumerProcessor implements ApplicationContextAware, InitializingB
         } else {
             log.warn(String.format("%s 方法没有找到匹配的消费者配置信息: %s", method, consumerName));
         }
-
     }
-
-
 }

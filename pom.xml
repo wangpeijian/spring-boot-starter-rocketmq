@@ -6,7 +6,7 @@
 
     <groupId>com.wpj</groupId>
     <artifactId>spring-boot-rocketmq-starter</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <name>spring-boot-rocketmq-starter</name>
     <description>spring-boot 使用注入方式调用RocketMQ</description>
@@ -48,9 +48,37 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>user-releases</id>
+            <name>User Project Release</name>
+            <url>http://10.76.3.6:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>user-snapshots</id>
+            <name>User Project SNAPSHOTS</name>
+            <url>http://10.76.3.6:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <plugins>
-
+            <!-- maven发布添加源码 -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

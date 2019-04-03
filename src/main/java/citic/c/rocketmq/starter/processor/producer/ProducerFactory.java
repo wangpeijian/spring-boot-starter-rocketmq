@@ -31,9 +31,9 @@ public class ProducerFactory {
     private final ChannelRepertory channelRepertory;
 
     //缓存生产者对象
-    private HashMap<String, Producer> producerCache = new HashMap<>();
-    private HashMap<String, OrderProducer> orderProducerCache = new HashMap<>();
-    private HashMap<String, TransactionProducer> transactionProducerCache = new HashMap<>();
+    private final HashMap<String, Producer> producerCache = new HashMap<>();
+    private final HashMap<String, OrderProducer> orderProducerCache = new HashMap<>();
+    private final HashMap<String, TransactionProducer> transactionProducerCache = new HashMap<>();
 
 
     ProducerFactory(ChannelRepertory channelRepertory, List<AbstractChecker> transactionCheckers) {

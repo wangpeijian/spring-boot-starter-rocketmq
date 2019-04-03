@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -22,6 +23,10 @@ class ConsumerFactory {
     private RocketMQConfig rocketMQConfig;
 
     private ConfigurableApplicationContext applicationContext;
+
+    //缓存消费者对象
+    private final HashMap<String, Consumer> consumerCache = new HashMap<>();
+    private final HashMap<String, OrderConsumer> orderConsumerCache = new HashMap<>();
 
     ConsumerFactory(ConfigurableApplicationContext applicationContext, RocketMQConfig rocketMQConfig) {
         this.applicationContext = applicationContext;
@@ -61,7 +66,7 @@ class ConsumerFactory {
             properties.put(PropertyKeyConst.MessageModel, PropertyValueConst.CLUSTERING);
         }
 
-        Consumer consumer = ONSFactory.createConsumer(properties);
+        Consumer consumer = getConsumer(groupId, properties);//ONSFactory.createConsumer(properties);
 
         try {
             //订阅消息
@@ -83,7 +88,7 @@ class ConsumerFactory {
                 }
             });
 
-            consumer.start();
+//            consumer.start();
             log.debug("方法: {}. consumer: {} subExpression: {}, 订阅消息.", method, groupId, config.getSubExpression());
 
         } catch (Exception e) {
@@ -106,7 +111,7 @@ class ConsumerFactory {
         properties.put(PropertyKeyConst.SuspendTimeMillis, String.valueOf(config.getSuspendTimeMillis()));
         properties.put(PropertyKeyConst.MaxReconsumeTimes, String.valueOf(config.getMaxReconsumeTimes()));
 
-        OrderConsumer orderConsumer = ONSFactory.createOrderedConsumer(properties);
+        OrderConsumer orderConsumer = getOrderConsumer(groupId, properties);//ONSFactory.createOrderedConsumer(properties);
 
         try {
             //订阅消息
@@ -129,12 +134,61 @@ class ConsumerFactory {
                 }
             });
 
-            orderConsumer.start();
+//            orderConsumer.start();
             log.debug("方法: {}. consumer: {} subExpression: {}, 订阅消息.", method, groupId, config.getSubExpression());
 
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 创建一个新的监听者，如果缓存中存在则直接返回
+     *
+     * @param groupId
+     * @param properties
+     * @return
+     */
+    private Consumer getConsumer(String groupId, Properties properties) {
+        Consumer consumer = consumerCache.get(groupId);
+
+        if (consumer != null) {
+            return consumer;
+        }
+
+        consumer = ONSFactory.createConsumer(properties);
+        consumerCache.put(groupId, consumer);
+
+        return consumer;
+    }
+
+    /**
+     * 创建一个新的顺序消息监听者，如果缓存中存在则直接返回
+     *
+     * @param groupId
+     * @param properties
+     * @return
+     */
+    private OrderConsumer getOrderConsumer(String groupId, Properties properties) {
+        OrderConsumer consumer = orderConsumerCache.get(groupId);
+
+        if (consumer != null) {
+            return consumer;
+        }
+
+        consumer = ONSFactory.createOrderedConsumer(properties);
+        orderConsumerCache.put(groupId, consumer);
+
+        return consumer;
+    }
+
+    /**
+     * 启动全部监听者
+     */
+    void startAllConsumer() {
+        consumerCache.forEach((s, consumer) -> consumer.start());
+        orderConsumerCache.forEach((s, orderConsumer) -> orderConsumer.start());
+        log.debug("启动全部监听者");
     }
 }
