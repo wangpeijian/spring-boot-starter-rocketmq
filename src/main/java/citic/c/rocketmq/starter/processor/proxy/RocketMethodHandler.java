@@ -89,7 +89,7 @@ public class RocketMethodHandler implements MethodHandler {
         }
 
         //Async消息第二个参数类型是 SendCallback
-        if (channel instanceof ChannelNormal) {
+        if (channel instanceof ChannelNormal && MessageType.async.equals(sender.type())) {
             classArr[1] = SendCallback.class;
         }
 
