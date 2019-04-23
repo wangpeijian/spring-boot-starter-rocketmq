@@ -1,7 +1,6 @@
 package com.wpj.spring.boot.rocketmq.starter.annotation;
 
 import com.wpj.spring.boot.rocketmq.starter.annotation.enums.MessageType;
-import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
@@ -14,10 +13,8 @@ import java.lang.annotation.*;
 @Documented
 public @interface MessageSender {
 
-    @AliasFor("type")
-    MessageType value() default MessageType.defaultType;
+    String channel();
 
-    @AliasFor("value")
     MessageType type() default MessageType.defaultType;
 
 }

@@ -26,8 +26,6 @@ public class RocketClientFactoryBean implements FactoryBean<Object>, Initializin
 
     private Class<?> type;
 
-    private String channelName;
-
     private ChannelRepertory channelRepertory;
 
     @Override
@@ -60,11 +58,11 @@ public class RocketClientFactoryBean implements FactoryBean<Object>, Initializin
     private Map<Method, MethodHandler> getMethodHandlers() {
         Map<Method, MethodHandler> methodToHandler = new LinkedHashMap<>();
 
-        Object channel = channelRepertory.findChannel(channelName);
         for (Method method : type.getMethods()) {
             MessageSender sender = method.getAnnotation(MessageSender.class);
+
             //建立接口方法与具体实现方法的映射关系
-            methodToHandler.put(method, new RocketMethodHandler(channel, sender));
+            methodToHandler.put(method, new RocketMethodHandler(channelRepertory, sender));
         }
 
         return methodToHandler;

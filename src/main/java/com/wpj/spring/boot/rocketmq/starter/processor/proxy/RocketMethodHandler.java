@@ -8,6 +8,7 @@ import com.wpj.spring.boot.rocketmq.starter.annotation.enums.MessageType;
 import com.wpj.spring.boot.rocketmq.starter.channel.ChannelNormal;
 import com.wpj.spring.boot.rocketmq.starter.channel.ChannelOrder;
 import com.wpj.spring.boot.rocketmq.starter.channel.ChannelTransaction;
+import com.wpj.spring.boot.rocketmq.starter.repertory.ChannelRepertory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -18,19 +19,25 @@ import java.util.Arrays;
  */
 public class RocketMethodHandler implements MethodHandler {
 
-    private Object channel;
+    private ChannelRepertory channelRepertory;
+
     private MessageSender sender;
 
-    RocketMethodHandler(Object channel, MessageSender sender) {
-        this.channel = channel;
+    RocketMethodHandler(ChannelRepertory channelRepertory, MessageSender sender) {
+        this.channelRepertory = channelRepertory;
         this.sender = sender;
     }
 
     @Override
     public Object invoke(Object[] argv) throws Throwable {
-        Class<?>[] classArr = getClassArray(argv);
+        String channelName = sender.channel();
+        Object channel = channelRepertory.findChannel(channelName);
 
-        Method method2Invoke = getMethod(classArr);
+        assert channel != null;
+
+        Class<?>[] classArr = getClassArray(channel, argv);
+
+        Method method2Invoke = getMethod(channel, classArr);
 
         assert method2Invoke != null;
         return method2Invoke.invoke(channel, argv);
@@ -43,7 +50,7 @@ public class RocketMethodHandler implements MethodHandler {
      * @return
      * @throws Exception
      */
-    private Method getMethod(Class<?>[] classArr) throws Exception {
+    private Method getMethod(Object channel, Class<?>[] classArr) throws Exception {
         String methodName = getMethodName();
 
         if (channel instanceof ChannelNormal) {
@@ -75,10 +82,12 @@ public class RocketMethodHandler implements MethodHandler {
     /**
      * 调整并返回参数列表
      *
+     *
+     * @param channel
      * @param argv
      * @return
      */
-    private Class<?>[] getClassArray(Object[] argv) {
+    private Class<?>[] getClassArray(Object channel, Object[] argv) {
         Class<?>[] classArr = Arrays.stream(argv).map(Object::getClass).toArray(Class[]::new);
         //发送参数第一个都是Object
         classArr[0] = Object.class;

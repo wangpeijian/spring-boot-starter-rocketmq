@@ -105,7 +105,6 @@ public class ProxyProcessor implements ImportBeanDefinitionRegistrar, ResourceLo
         BeanDefinitionBuilder definitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(RocketClientFactoryBean.class);
         definitionBuilder.addPropertyReference("channelRepertory", ChannelRepertory.CHANNEL_REPERTORY_BEAN_NAME);
         definitionBuilder.addPropertyValue("type", className);
-        definitionBuilder.addPropertyValue("channelName", channelName);
 
         AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
         return new BeanDefinitionHolder(beanDefinition, className);
