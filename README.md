@@ -150,8 +150,8 @@ rocketMq:
 ```
 
 ##### 2.4 使用接口注入方式调用生产者
-使用接口注入方式发送消息，需要在项目启动类上添加`@EnableRocketMQ`注解。创建发送者接口类，接口添加注解`@@ProducerChannel("生产者别名")`，
-接口方法添加`@MessageSender（MessageType）`注解标记消息发送方式。普通消息需要区分`sendOneway`、`sendAsync`、`send`三种不同发送方式。
+使用接口注入方式发送消息，需要在项目启动类上添加`@EnableRocketMQ`注解。创建发送者接口类，接口添加注解`@ProducerChannel`，
+接口方法添加`@MessageSender（"生产者别名", MessageType）`注解标记消息发送方式。普通消息需要区分`sendOneway`、`sendAsync`、`send`三种不同发送方式。
 普通消息，顺序消息，事务消息默认是基本发送方式。
 ```
    //项目启动类,添加EnableRocketMQ注解
@@ -164,28 +164,58 @@ rocketMq:
        }
    }
    
-   //生产者接口类，ProducerChannel注解参数为生产者别名
-   @ProducerChannel("p1")
-   public interface MqProducer {
+   //生产者接口类
+   @ProducerChannel
+   public interface TestProducer {
    
-       //接口参数要和Channel中对应的方法参数保持一致，消息类型可以为任意类型，事务消息额外参数可以是任意类型
-       @MessageSender
-       SendResult sendTest(String msg);
+       /**
+        * 普通消息发送
+        *
+        * 消息对象可以是任意类型
+        */
+       @MessageSender(channel = "p1")
+       SendResult sendNormal(Map msg);
    
-       @MessageSender(MessageType.async)
-       SendResult sendTestAsync(String msg, SendCallback sendCallback);
+       @MessageSender(channel = "p1", type = MessageType.async)
+       SendResult sendAsync(Map msg, final SendCallback sendCallback);
    
-       @MessageSender(MessageType.oneway)
-       SendResult sendTestOneway(String msg);
+       @MessageSender(channel = "p1", type = MessageType.oneway)
+       SendResult sendOneway(Object msg);
    
+   
+       /**
+        * 消息添加延时
+        * 
+        * timeStamp = 希望消息发送的时刻的时间戳
+        */
+       @MessageSender(channel = "p1")
+       SendResult sendNormalDelay(Map msg, long timeStamp);
+   
+       @MessageSender(channel = "p1", type = MessageType.async)
+       SendResult sendAsyncDelay(Map msg, final SendCallback sendCallback, long timeStamp);
+   
+       @MessageSender(channel = "p1", type = MessageType.oneway)
+       SendResult sendOnewayDelay(Object msg, long timeStamp);
+   
+       /**
+        * 顺序消息
+        */
+       @MessageSender(channel = "p2")
+       SendResult sendOrder(Map msg, String shardingKey);
+   
+       /**
+        * 事务消息
+        */
+       @MessageSender(channel = "p3")
+       SendResult sendTransaction(Map msg, LocalTransactionExecuter executer, Object arg);
    }
    
    //注入生产者接口 
    @Autowired
-   MqProducer mqProducer;
+   TestProducer testProducer;
    
    //发送一条消息
-   SendResult sendResult1 =  mqProducer.sendTest("普通消息");
+   SendResult sendResult1 =  testProducer.sendNormal("普通消息");
 ```
 
 #### 3. 事务消息注册checker
