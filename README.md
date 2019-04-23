@@ -1,14 +1,28 @@
 # spring-rocketmq-starter
 
 spring-boot 使用注入方式调用阿里云RocketMQ SDK。
-<br> 
+
 email: 519955464@qq.com
+
+demo项目: [`spring-rocketmq-starter-demo`](https://github.com/wangpeijian/spring-rocketmq-starter-demo "spring-rocketmq-starter-demo")
 
 ---
 
 ### 配置示例
 
-#### 1. yml配置文件
+#### 1.1 spring boot 启动项配置
+方式1：
+`
+@SpringBootApplication(scanBasePackages = {"com.example.demo", "com.wpj"})
+`
+spring boot启动类需要添加配置扫描路径，例如工程项目需要被扫描的包为：`com.example.demo`
+需要再添加`spring-rocketmq-starter`的包（`com.wpj`）共同扫描。
+
+方式2：
+修改`spring-rocketmq-starter`项目的包路径，例如修改为：`com.example.demo` 
+或 `com.example`也可以被默认扫描到
+
+#### 1.2 yml配置文件
 ```
 rocketMq:
     ONS-address: 
