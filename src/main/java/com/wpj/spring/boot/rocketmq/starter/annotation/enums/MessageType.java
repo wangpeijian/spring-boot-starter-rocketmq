@@ -3,7 +3,7 @@ package com.wpj.spring.boot.rocketmq.starter.annotation.enums;
 /**
  * 消息的发送方式
  *
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-29 上午10:26
  */
 public enum MessageType {

@@ -1,36 +1,40 @@
 package com.wpj.spring.boot.rocketmq.starter.processor.proxy;
 
 import com.wpj.spring.boot.rocketmq.starter.annotation.ProducerChannel;
+import com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig;
 import com.wpj.spring.boot.rocketmq.starter.repertory.ChannelRepertory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-28 上午10:28
  */
 @Slf4j
 @Configuration
-public class ProxyProcessor implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
+@AutoConfigureAfter(RocketMQConfig.class)
+public class ProxyProcessor implements BeanDefinitionRegistryPostProcessor, ResourceLoaderAware, EnvironmentAware {
 
     private ResourceLoader resourceLoader;
 
@@ -47,25 +51,29 @@ public class ProxyProcessor implements ImportBeanDefinitionRegistrar, ResourceLo
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        scanRocketChannel(metadata, registry);
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        scanRocketChannel(registry);
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
     }
 
     /**
      * 扫描所有添加注解的接口
      *
-     * @param metadata
      * @param registry
      */
-    public void scanRocketChannel(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        String basePackage = ClassUtils.getPackageName(metadata.getClassName());
+    public void scanRocketChannel(BeanDefinitionRegistry registry) {
 
         ClassPathScanningCandidateComponentProvider scanner = getScanner();
         scanner.setResourceLoader(this.resourceLoader);
         AnnotationTypeFilter annotationTypeFilter = new AnnotationTypeFilter(ProducerChannel.class);
         scanner.addIncludeFilter(annotationTypeFilter);
 
-        Set<BeanDefinition> candidateComponents = scanner.findCandidateComponents(basePackage);
+        Set<BeanDefinition> candidateComponents = scanner.findCandidateComponents("**/**");
+
         for (BeanDefinition candidateComponent : candidateComponents) {
             if (candidateComponent instanceof AnnotatedBeanDefinition) {
                 // verify annotated class is an interface
@@ -119,4 +127,6 @@ public class ProxyProcessor implements ImportBeanDefinitionRegistrar, ResourceLo
     protected void registerBean(BeanDefinitionHolder definitionHolder, BeanDefinitionRegistry registry) {
         registry.registerBeanDefinition(definitionHolder.getBeanName(), definitionHolder.getBeanDefinition());
     }
+
+
 }

@@ -1,0 +1,52 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig",
+      "name": "rocketMq",
+      "type": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig"
+    },
+    {
+      "sourceType": "org.mybatis.spring.boot.autoconfigure.RocketMQConfig",
+      "name": "rocketMq.bindings",
+      "sourceMethod": "getBindings()",
+      "type": "com.wpj.spring.boot.rocketmq.starter.config.bindings.Bindings"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig",
+      "defaultValue": "",
+      "name": "rocketMq.name-srv-addr",
+      "description": "阿里云RocketMQ地址",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig",
+      "name": "rocketMq.access-key",
+      "description": "access key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig",
+      "name": "rocketMq.secret-key",
+      "description": "secret key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.bindings.RocketMQConfig",
+      "name": "rocketMq.bindings",
+      "type": "com.wpj.spring.boot.rocketmq.starter.config.bindings.Bindings"
+    },
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.bindings.Bindings",
+      "name": "rocketMq.bindings.producers",
+      "type": "java.util.Map<java.lang.String, com.wpj.spring.boot.rocketmq.starter.config.bindings.ProducerConfig>"
+    },
+    {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.bindings.Bindings",
+      "name": "rocketMq.bindings.consumers",
+      "type": "java.util.Map<java.lang.String, com.wpj.spring.boot.rocketmq.starter.config.bindings.ConsumerConfig>"
+    }
+  ]
+}

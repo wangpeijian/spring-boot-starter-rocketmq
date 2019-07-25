@@ -5,7 +5,7 @@ import com.wpj.spring.boot.rocketmq.starter.annotation.enums.MessageType;
 import java.lang.annotation.*;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-28 上午10:19
  */
 @Target(ElementType.METHOD)

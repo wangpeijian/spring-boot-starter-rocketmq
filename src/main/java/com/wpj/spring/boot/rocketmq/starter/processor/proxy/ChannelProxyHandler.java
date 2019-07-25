@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 消息发送代理类
  *
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-29 上午11:12
  */
 public class ChannelProxyHandler implements InvocationHandler {

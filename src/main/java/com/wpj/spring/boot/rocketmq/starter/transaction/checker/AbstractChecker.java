@@ -6,7 +6,7 @@ import com.wpj.spring.boot.rocketmq.starter.message.ResponseMessage;
 /**
  * 事务消息checker抽象类
  *
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-2-14 上午10:41
  */
 public abstract class AbstractChecker {

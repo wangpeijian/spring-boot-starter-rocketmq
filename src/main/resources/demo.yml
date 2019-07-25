@@ -1,5 +1,5 @@
 rocketMq:
-    nameSrvAddr:
+    name-srv-addr:
     access-key:
     secret-key:
 

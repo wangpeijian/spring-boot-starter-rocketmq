@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-27 下午3:38
  */
 @Slf4j

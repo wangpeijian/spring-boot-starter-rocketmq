@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-29 下午2:37
  */
 @Data

@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-29 下午5:16
  */
 public class RocketMethodHandler implements MethodHandler {

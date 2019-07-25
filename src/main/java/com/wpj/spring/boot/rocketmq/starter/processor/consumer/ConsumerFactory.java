@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * @auther wangpejian
+ * @author wangpejian
  * @date 19-3-27 下午2:50
  */
 @Slf4j
