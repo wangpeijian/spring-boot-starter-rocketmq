@@ -1,7 +1,6 @@
 package com.wpj.spring.boot.rocketmq.starter.processor.proxy;
 
 import com.wpj.spring.boot.rocketmq.starter.annotation.ProducerChannel;
-import com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig;
 import com.wpj.spring.boot.rocketmq.starter.repertory.ChannelRepertory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -33,7 +31,6 @@ import java.util.Set;
  */
 @Slf4j
 @Configuration
-@AutoConfigureAfter(RocketMQConfig.class)
 public class ProxyProcessor implements BeanDefinitionRegistryPostProcessor, ResourceLoaderAware, EnvironmentAware {
 
     private ResourceLoader resourceLoader;

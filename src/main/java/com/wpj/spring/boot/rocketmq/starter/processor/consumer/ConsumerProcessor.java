@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -21,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Order
 @Slf4j
 @Configuration
 public class ConsumerProcessor implements ApplicationContextAware, InitializingBean {

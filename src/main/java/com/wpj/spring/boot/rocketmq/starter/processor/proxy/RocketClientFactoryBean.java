@@ -5,7 +5,6 @@ import com.wpj.spring.boot.rocketmq.starter.repertory.ChannelRepertory;
 import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -20,7 +19,7 @@ import java.util.Map;
  * @date 19-3-29 下午2:37
  */
 @Data
-public class RocketClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
+public class RocketClientFactoryBean implements FactoryBean<Object>, ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
@@ -38,11 +37,6 @@ public class RocketClientFactoryBean implements FactoryBean<Object>, Initializin
     @Override
     public Class<?> getObjectType() {
         return this.type;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-
     }
 
     @Override
