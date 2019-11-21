@@ -1,10 +1,10 @@
-# spring-rocketmq-starter
+# spring-boot-starter-rocketmq
 
 spring-boot 使用注入方式调用阿里云RocketMQ SDK。
 
 email: 519955464@qq.com
 
-demo项目: [`spring-rocketmq-starter-demo`](https://github.com/wangpeijian/spring-rocketmq-starter-demo "spring-rocketmq-starter-demo")
+demo项目: [`spring-boot-starter-rocketmq-demo`](https://github.com/wangpeijian/spring-boot-starter-rocketmq-demo "spring-boot-starter-rocketmq-demo")
 
 ---
 
