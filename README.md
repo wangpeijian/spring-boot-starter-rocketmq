@@ -16,6 +16,10 @@ rocketMq:
     ONS-address: 
     access-key: 
     secret-key: 
+    # 配置注解类扫描路径，多个路径使用逗号分割，例：com.example.demo,com.test.demo
+    # 目前只扫描路径下的 @ProducerChannel 类型注解
+    # （默认扫描全部路径，扫描全部路径会造成项目启动时间增长）
+    base-package: 
 
     bindings:
         #生产者配置
@@ -138,20 +142,13 @@ rocketMq:
 ```
 
 ##### 2.4 使用接口注入方式调用生产者
-使用接口注入方式发送消息，需要在项目启动类上添加`@EnableRocketMQ`注解。创建发送者接口类，接口添加注解`@ProducerChannel`，
-接口方法添加`@MessageSender（"生产者别名", MessageType）`注解标记消息发送方式。普通消息需要区分`sendOneway`、`sendAsync`、`send`三种不同发送方式。
+使用接口注入方式发送消息，创建发送者接口类，接口添加注解`@ProducerChannel`，
+接口方法添加`@MessageSender（"生产者别名", MessageType）`注解标记消息发送方式。
+普通消息需要区分`sendOneway`、`sendAsync`、`send`三种不同发送方式。
 普通消息，顺序消息，事务消息默认是基本发送方式。
+`rocketMq.base-package`配置可以指定`@ProducerChannel`的扫描路径，默认扫描全部文件，
+扫描全部文件可能造成项目启动时间变长。多个扫描路径使用`,`分割。
 ```
-   //项目启动类,添加EnableRocketMQ注解
-   @EnableRocketMQ
-   @SpringBootApplication
-   public class Application {
-   
-       public static void main(String[] args) {
-           SpringApplication.run(Application.class, args);
-       }
-   }
-   
    //生产者接口类
    @ProducerChannel
    public interface TestProducer {

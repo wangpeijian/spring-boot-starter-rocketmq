@@ -22,8 +22,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.Assert;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author wangpejian
@@ -69,7 +68,25 @@ public class ProxyProcessor implements BeanDefinitionRegistryPostProcessor, Reso
         AnnotationTypeFilter annotationTypeFilter = new AnnotationTypeFilter(ProducerChannel.class);
         scanner.addIncludeFilter(annotationTypeFilter);
 
-        Set<BeanDefinition> candidateComponents = scanner.findCandidateComponents("**/**");
+        // 获取扫描的包路径
+        String basePackagePaths = environment.getProperty("rocketMq.base-package");
+        List<String> paths = new ArrayList<>();
+        if (basePackagePaths != null) {
+            paths = Arrays.asList(basePackagePaths.split(","));
+            log.info("已配置扫描路径路径为:[{}]", paths);
+        } else {
+            paths.add("**/**");
+            log.info("没有配置扫描路径,使用默认路径:[{}]", paths);
+        }
+
+        // 扫描到的注解类集合
+        Set<BeanDefinition> candidateComponents = new HashSet<>();
+        paths.forEach(path -> {
+            if (!"".equals(path.trim())) {
+                // 防止扫描到重复的代理对象
+                candidateComponents.addAll(scanner.findCandidateComponents(path));
+            }
+        });
 
         for (BeanDefinition candidateComponent : candidateComponents) {
             if (candidateComponent instanceof AnnotatedBeanDefinition) {

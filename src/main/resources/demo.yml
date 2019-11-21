@@ -2,6 +2,7 @@ rocketMq:
     name-srv-addr:
     access-key:
     secret-key:
+    base-package:
 
     bindings:
         producers:

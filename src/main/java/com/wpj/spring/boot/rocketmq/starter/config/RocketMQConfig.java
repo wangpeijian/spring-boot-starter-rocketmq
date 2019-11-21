@@ -13,16 +13,29 @@ import java.util.Properties;
 @Data
 public class RocketMQConfig {
 
-    // 设置 TCP 接入域名（此处以公共云生产环境为例）
+    /**
+     * 设置 TCP 接入域名（此处以公共云生产环境为例）
+     */
     private String nameSrvAddr;
 
-    // AccessKey 阿里云身份验证，在阿里云服务器管理控制台创建
+    /**
+     * AccessKey 阿里云身份验证，在阿里云服务器管理控制台创建
+     */
     private String accessKey;
 
-    // SecretKey 阿里云身份验证，在阿里云服务器管理控制台创建
+    /**
+     * SecretKey 阿里云身份验证，在阿里云服务器管理控制台创建
+     */
     private String secretKey;
 
-    //绑定的生产者和消费者信息
+    /**
+     * basePackage 扫描rocketMq注解的根路径,多个路径使用逗号分割
+     */
+    private String basePackage;
+
+    /**
+     * 绑定的生产者和消费者信息
+     */
     private Bindings bindings;
 
     /**

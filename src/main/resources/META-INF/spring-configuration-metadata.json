@@ -34,6 +34,12 @@
       "type": "java.lang.String"
     },
     {
+      "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.RocketMQConfig",
+      "name": "rocketMq.base-package",
+      "description": "扫描rocketMq注解的根路径,多个路径使用逗号分割",
+      "type": "java.lang.String"
+    },
+    {
       "sourceType": "com.wpj.spring.boot.rocketmq.starter.config.bindings.RocketMQConfig",
       "name": "rocketMq.bindings",
       "type": "com.wpj.spring.boot.rocketmq.starter.config.bindings.Bindings"
